@@ -1,0 +1,58 @@
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ./prometheus/data:/prometheus
+    user: root
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    user: root
+    ports:
+      - 3000:3000
+    env_file:
+      - ./grafana/grafana.env
+    volumes:
+      - ./grafana/config-etc/:/etc/grafana
+      - ./grafana/config-var:/var/lib/grafana
+    environment:
+      ENV_TEST_KEY: test_var
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    user: root
+    ports:
+     - 9100:9100
+    volumes:
+      - /proc:/host/proc
+      - /sys:/host/sys
+      - /:/rootfs
+      - ./prometheus/:/etc/prometheus/
+      - ./prometheus/data:/prometheus
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+
+  nginx-node-exporter:
+    image: nginx/nginx-prometheus-exporter:0.7.0
+    container_name: nginx-exporter
+    ports:
+     - 9113:9113
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ./prometheus/data:/prometheus
+    command:
+      - -nginx.scrape-uri
+      - http://172.17.0.1:8080/nginx_status
+
+  blackbox_exporter:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox-exporter
+    user: root
+    volumes:
+      - ./blackbox-exporter/:/etc/blackbox_exporter/
