@@ -33,7 +33,6 @@ modules:
   icmp:
     prober: icmp
 
-  # IPV6 が利用できない環境の場合は以下の設定を追加します。
   icmp_ipv4:
     prober: icmp
     icmp:
