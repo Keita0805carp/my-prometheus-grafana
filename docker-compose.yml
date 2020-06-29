@@ -9,6 +9,7 @@ services:
     user: root
     ports:
       - 9090:9090
+    restart: always
 
   grafana:
     image: grafana/grafana
@@ -23,6 +24,7 @@ services:
       - ./grafana/config-var:/var/lib/grafana
     environment:
       ENV_TEST_KEY: test_var
+    restart: always
 
   node-exporter:
     image: prom/node-exporter
@@ -37,6 +39,7 @@ services:
       - ./prometheus/:/etc/prometheus/
       - ./prometheus/data:/prometheus
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+    restart: always
 
   nginx-node-exporter:
     image: nginx/nginx-prometheus-exporter:0.7.0
