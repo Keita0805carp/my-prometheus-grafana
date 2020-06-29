@@ -1,14 +1,14 @@
 version: '3'
 services:
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    volumes:
-      - ./prometheus/:/etc/prometheus/
-      - ./prometheus/data:/prometheus
-    user: root
-    ports:
-      - 9090:9090
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus
+#    volumes:
+#      - ./prometheus/:/etc/prometheus/
+#      - ./prometheus/data:/prometheus
+#    user: root
+#    ports:
+#      - 9090:9090
 
         
 # grafana:
